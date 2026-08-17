@@ -114,22 +114,35 @@ Use $agent-scout to refresh memory from my explicit archive choices in the last
 
 ## Scheduled use
 
-Scheduling belongs to Codex Scheduled Tasks, not to the skill itself. The scheduled task decides **when and where** to run; AgentScout decides **how** to scout, verify, rank, and write.
+The simple model is: **AgentScout decides how to scout; Codex Scheduled Tasks decide when to scout.** You do not need to mention internal files such as `seen.jsonl` in the scheduled prompt.
+
+First, initialize the research workspace once in a regular Codex conversation:
+
+```text
+Use $agent-scout to initialize my AgentScout research workspace for digests,
+archived articles, and preference memory.
+```
+
+After Codex confirms the workspace location, create the scheduled task in the same local project. For example, run every two weeks with this task prompt:
+
+```text
+Use $agent-scout to collect five noteworthy Agent works from the last two weeks.
+Focus on primary technical reports, papers, engineering posts, and official
+projects from industrial teams including OpenAI, Google/DeepMind, DeepSeek,
+GLM, Anthropic, Meta, Microsoft, Alibaba, and ByteDance.
+
+For each item, explain its core contribution, pain point, key evidence, and
+limitations in Chinese, and include the original link. Save the result in the
+AgentScout research workspace that has already been initialized. Return only
+a candidate list and wait for me to choose which item numbers to archive.
+```
+
+That is all a regular user needs to provide. AgentScout handles date calculation, deduplication, digest persistence, and internal state updates.
 
 A recommended setup is:
 
 - a twice-weekly scouting task that produces five candidates and never archives automatically;
 - a monthly synthesis task that reads the rolling 60-day memory and proposes continuations.
-
-Example scheduled-task prompt:
-
-```text
-Use $agent-scout with the research root at /absolute/path/to/AgentScout.
-Scout the last 14 completed calendar days and return five high-signal Agent works.
-Prioritize primary technical sources from industrial AI labs while preserving
-topic diversity. Write Chinese summaries, save the digest, update seen.jsonl,
-and do not archive any item without my explicit selection.
-```
 
 When a scheduled task needs local files, keep the computer on and the Codex desktop app running, and run the task in a project that can access the research root.
 
