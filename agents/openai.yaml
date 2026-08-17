@@ -1,0 +1,4 @@
+interface:
+  display_name: "AgentScout"
+  short_description: "Scout, summarize, archive, and extend agent research"
+  default_prompt: "Use $agent-scout to find recent agent research, prepare a concise digest, and update my local research memory."
