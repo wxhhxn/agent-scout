@@ -78,8 +78,8 @@ research-root/
 
 ```text
 使用 $agent-scout 搜索最近 14 个完整自然日值得关注的 5 项 Agent 工作。
-优先关注 OpenAI、Google/DeepMind、DeepSeek、GLM、Anthropic、Meta、
-Microsoft、阿里和字节的一手技术报告、论文、工程文章和官方仓库。
+按照研究库 config.md 中的来源比例与重点机构搜索，一手技术报告、
+论文、工程文章和官方仓库优先。
 只生成候选摘要，不要自动归档。
 ```
 
@@ -118,7 +118,7 @@ Microsoft、阿里和字节的一手技术报告、论文、工程文章和官�
 使用 $agent-scout，为我初始化 AgentScout 研究库，以后用它保存摘要、归档文章和兴趣记忆。
 ```
 
-Codex 会让你确认研究库放在哪里。初始化成功后，在同一个本地项目中创建定时任务即可。
+Codex 会让你确认研究库放在哪里。初始化后，AgentScout 会把位置登记在 `~/.codex/agent-scout.json`；以后手动调用和定时任务都会自动找到它，不必重复填写绝对路径。
 
 ### 第二步：创建定时任务
 
@@ -126,16 +126,16 @@ Codex 会让你确认研究库放在哪里。初始化成功后，在同一个�
 
 ```text
 使用 $agent-scout 搜集最近两周值得关注的 5 项 Agent 技术工作。
-重点关注 OpenAI、Google/DeepMind、DeepSeek、智谱 GLM、Anthropic、
-Meta、Microsoft、阿里和字节等工业界团队的一手技术报告、论文、
-工程文章和官方项目。
+按照 AgentScout 配置中的来源比例和重点机构，优先搜索工业界 AI
+团队的一手技术报告、论文、工程文章和官方项目，同时保持学术研究
+与开源社区的覆盖。
 
 请用中文说明每项工作的核心贡献、解决的痛点、关键证据、局限，
 并附上原始链接。把本次结果保存到已经初始化的 AgentScout 研究库。
 只生成候选清单，不要自动归档；等我回复要归档的编号。
 ```
 
-这就是普通用户需要填写的全部内容。日期计算、链接去重、摘要文件保存等内部操作由 Skill 完成。
+这就是普通用户需要填写的全部内容。研究库定位、日期计算、链接去重、摘要文件保存等内部操作由 Skill 完成。默认重点机构和来源比例可以直接在研究库的 `config.md` 中修改。
 
 两者的职责是：
 
@@ -164,9 +164,10 @@ Meta、Microsoft、阿里和字节等工业界团队的一手技术报告、论�
 
 ```bash
 python3 scripts/workspace.py init /研究库路径
-python3 scripts/workspace.py seen /研究库路径 --digest /摘要文件路径
-python3 scripts/workspace.py index /研究库路径
-python3 scripts/workspace.py open-index /研究库路径
+python3 scripts/workspace.py resolve-root
+python3 scripts/workspace.py seen --digest /摘要文件路径
+python3 scripts/workspace.py index
+python3 scripts/workspace.py open-index
 ```
 
 使用 `python3 scripts/workspace.py --help` 查看当前命令说明。

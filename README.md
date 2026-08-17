@@ -86,9 +86,9 @@ research-root/
 
 ```text
 Use $agent-scout to find five high-signal Agent works from the last 14 completed
-calendar days. Prefer technical reports, papers, engineering posts, and official
-repositories from OpenAI, Google/DeepMind, DeepSeek, GLM, Anthropic, Meta,
-Microsoft, Alibaba, and ByteDance. Do not auto-archive anything.
+calendar days. Use the source lanes and priority organizations in the workspace
+config. Prefer primary technical reports, papers, engineering posts, and official
+repositories. Do not auto-archive anything.
 ```
 
 ### Archive selected items
@@ -123,13 +123,13 @@ Use $agent-scout to initialize my AgentScout research workspace for digests,
 archived articles, and preference memory.
 ```
 
-After Codex confirms the workspace location, create the scheduled task in the same local project. For example, run every two weeks with this task prompt:
+After initialization, AgentScout registers the location in `~/.codex/agent-scout.json`, so later manual and scheduled runs can find it without repeating an absolute path. For example, run every two weeks with this task prompt:
 
 ```text
 Use $agent-scout to collect five noteworthy Agent works from the last two weeks.
-Focus on primary technical reports, papers, engineering posts, and official
-projects from industrial teams including OpenAI, Google/DeepMind, DeepSeek,
-GLM, Anthropic, Meta, Microsoft, Alibaba, and ByteDance.
+Use the source lanes and priority organizations in my AgentScout configuration.
+Prioritize primary technical reports, papers, engineering posts, and official
+projects from industrial AI teams while retaining academic and open-source coverage.
 
 For each item, explain its core contribution, pain point, key evidence, and
 limitations in Chinese, and include the original link. Save the result in the
@@ -137,7 +137,7 @@ AgentScout research workspace that has already been initialized. Return only
 a candidate list and wait for me to choose which item numbers to archive.
 ```
 
-That is all a regular user needs to provide. AgentScout handles date calculation, deduplication, digest persistence, and internal state updates.
+That is all a regular user needs to provide. AgentScout handles workspace discovery, date calculation, deduplication, digest persistence, and internal state updates. Default source lanes and priority organizations can be changed in the workspace's `config.md`.
 
 A recommended setup is:
 
@@ -162,9 +162,10 @@ The bundled script provides deterministic workspace operations:
 
 ```bash
 python3 scripts/workspace.py init /path/to/research-root
-python3 scripts/workspace.py seen /path/to/research-root --digest /path/to/digest.md
-python3 scripts/workspace.py index /path/to/research-root
-python3 scripts/workspace.py open-index /path/to/research-root
+python3 scripts/workspace.py resolve-root
+python3 scripts/workspace.py seen --digest /path/to/digest.md
+python3 scripts/workspace.py index
+python3 scripts/workspace.py open-index
 ```
 
 Run `python3 scripts/workspace.py --help` for the current command reference.
